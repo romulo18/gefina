@@ -59,6 +59,21 @@ app.get('/api/invoices', function (request, response) {
     response.status(200).json(invoices);
 });
 
+app.get('/api/invoices/:id', function (request, response) {
+    const id = +request.params.id;
+
+    if (!id) {
+        response.status(404).json({ error: { message: 'Fatura não encontrada' } });
+        return;
+    }
+
+    for (let i = 0;  i < invoices.length; i++) {
+        if (invoices[i].id === id){
+            response.status(200).json(invoices[i]);
+        }
+    }
+});
+
 app.use(function (request, response) {
     response.status(404).json({ message: 'Recurso não encontrado.' });
 });
