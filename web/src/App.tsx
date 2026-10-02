@@ -1,19 +1,5 @@
-type InvoiceStatus = 'pending' | 'paid';
-
-interface Customer {
-  id: number;
-  name: string;
-  email: string;
-}
-
-export interface Invoice {
-  id: number;
-  amount: number;
-  status: InvoiceStatus;
-  issueDate: string;
-  dueDate: string;
-  customer: Customer;
-}
+import type { Invoice } from './invoiceType.ts';
+import InvoiceTable from './InvoiceTable.tsx';
 
 const invoices: Invoice[] = [
   {
@@ -54,4 +40,6 @@ const invoices: Invoice[] = [
   },
 ];
 
-export default invoices;
+export default function App() {
+    return <InvoiceTable invoices={invoices} /> 
+}
