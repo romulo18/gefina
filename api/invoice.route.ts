@@ -5,9 +5,7 @@ import invoices from './invoice.data.ts';
 const router = Router();
 
 router.get('/', (_request, response) => {
-   setTimeout(() => {
   response.status(200).json(invoices);
-    }, 3000);
 });
 
 router.get('/:id', (request, response) => {
