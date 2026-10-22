@@ -16,7 +16,7 @@ export default function DashboardPage() {
         async function getDashboard() {
             try {
                 const response = await fetch('/api/dashboard');
-                
+
                 if (!response.ok) {
                     setError('Não foi possivel carregar faturas.');
                     setLoading(false);
@@ -41,25 +41,27 @@ export default function DashboardPage() {
     return <>
         <h1>Painel Inicial</h1>
 
-        <div>
+        <div className='summary-cards'>
             <SummaryCard label='Total recebido:' value={formatCurrency(dashboard.totals.paid)} />
             <SummaryCard label='Total pendente:' value={formatCurrency(dashboard.totals.paid)} />
             <SummaryCard label='Faturas:' value={String(dashboard.totals.invoiceCount)} />
             <SummaryCard label='Clientes:' value={String(dashboard.totals.customerCount)} />
         </div>
 
-        <InvoiceSummaryTable
-            title='Faturas recentes'
-            dateLabel='Emissão'
-            invoices={dashboard.recentInvoices}
-            date={(invoice) => invoice.issueDate}
-        />
+        <div className='summary-tables'>
+            <InvoiceSummaryTable
+                title='Faturas recentes'
+                dateLabel='Emissão'
+                invoices={dashboard.recentInvoices}
+                date={(invoice) => invoice.issueDate}
+            />
 
-        <InvoiceSummaryTable
-            title='Faturas Atrasada'
-            dateLabel='Vencimento'
-            invoices={dashboard.overdueInvoices}
-            date={(invoice) => invoice.dueDate}
-        />
+            <InvoiceSummaryTable
+                title='Faturas Atrasada'
+                dateLabel='Vencimento'
+                invoices={dashboard.overdueInvoices}
+                date={(invoice) => invoice.dueDate}
+            />
+        </div>
     </>;
 }
