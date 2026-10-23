@@ -7,6 +7,7 @@ import invoices from './invoice.route.ts';
 import pool from './database.ts';
 
 const app = express();
+app.use(express.json());
 
 const dist = path.join(import.meta.dirname, '..', 'web', 'dist');
 
