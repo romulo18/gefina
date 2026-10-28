@@ -3,9 +3,13 @@ import express from 'express';
 import path from 'node:path';
 import fs from 'node:fs';
 
-import dashboard from './dashboard.route.ts'
-import invoices from './invoice.route.ts';
 import pool from './database.ts';
+
+import dashboard from './dashboard.route.ts';
+import customers from './customer.route.ts';
+import invoices from './invoice.route.ts';
+
+
 import handleError from './error.middleware.ts';
 
 const app = express();
@@ -38,7 +42,8 @@ app.get('/api/health', async (_request, response) => {
   }
 });
 
-app.use('/api/dashboard', dashboard)
+app.use('/api/dashboard', dashboard);
+app.use('/api/customers', customers);
 app.use('/api/invoices', invoices);
 
 app.use(express.static(dist));
@@ -53,10 +58,12 @@ app.use((request, response, next) => {
 })
 
 app.use((_request, response) => {
-  response.status(404).json({ error: {
-    status: 404,
-    message: 'Recurso não encontrado.'
-}});
+  response.status(404).json({
+    error: {
+      status: 404,
+      message: 'Recurso não encontrado.'
+    }
+  });
 });
 
 app.use(handleError);
