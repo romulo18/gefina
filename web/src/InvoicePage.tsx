@@ -4,7 +4,7 @@ import type { Invoice, InvoiceInput } from './invoiceType.ts';
 import InvoiceTable from './InvoiceTable.tsx';
 import InvoiceForm from './InvoiceForm.tsx';
 
-import { getAllInvoices, createInvoice } from './invoiceApi.ts';
+import { getAllInvoices, createInvoice, updateInvoice } from './invoiceApi.ts';
 import type { CustomerOption } from './customerType.ts';
 
 export default function App() {
@@ -15,10 +15,12 @@ export default function App() {
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [dialogContent, setDialogContent] = useState(false);
+  const [target, setTarget] = useState<Invoice | null>(null);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  function openModal() {
+  function openModal(invoice: Invoice | null) {
+    setTarget(invoice);
     setFormError(null);
     setDialogContent(true);
 
@@ -77,7 +79,12 @@ export default function App() {
     setFormError(null);
 
     try {
-      await createInvoice(datas);
+      if (!target) {
+        await createInvoice(datas);
+      } else {
+        await updateInvoice(target.id, datas);
+      }
+
       closeModal();
       await refresh();
     } catch (error) {
@@ -94,14 +101,18 @@ export default function App() {
   return <>
     <header className='page-header'>
       <h1>Faturas</h1>
-      <button 
-      className='button-primary' 
-      onClick={openModal}
+      <button
+        className='button-primary'
+        type='button'
+        onClick={() => openModal(null)}
       >Nova fatura</button>
     </header>
 
     <div className='painel'>
-      <InvoiceTable invoices={invoices} />
+      <InvoiceTable
+        invoices={invoices}
+        edit={openModal}
+      />
     </div>
 
     <dialog
@@ -110,7 +121,7 @@ export default function App() {
       onClose={() => setDialogContent(false)}
     >
       {dialogContent && <InvoiceForm
-        invoice={null}
+        invoice={target}
         customers={customersOptions}
         error={formError}
         onDelete={() => null}

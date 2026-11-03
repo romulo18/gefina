@@ -170,6 +170,10 @@ td {
     padding: var(--space-3);
 }
 
+.td-button {
+    text-align: center;
+}
+
 .numeric {
     font-variant-numeric: tabular-nums;
 }
@@ -210,6 +214,7 @@ td {
     border-radius: var(--radius-dialog);
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
+    margin: auto;
 }
 
 .invoice-modal::backdrop {
