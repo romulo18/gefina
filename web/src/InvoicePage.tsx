@@ -153,7 +153,7 @@ export default function App() {
         customers={customersOptions}
         error={formError}
         fieldErrors={fieldErrors}
-        onDelete={() => setConfirmDelete(true)}
+          onDelete={() => setConfirmDelete(true)}
         confirmDelete={confirmDelete}
         setConfirmDelete={setConfirmDelete}
         confirm={confirm}
