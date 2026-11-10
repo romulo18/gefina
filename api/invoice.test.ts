@@ -9,7 +9,7 @@ import supertest from 'supertest';
 
 import app from './app.ts';
 
-import pool from './database.ts';
+import prisma from './prisma.ts';
 
 const user = { 
     id: 0,
@@ -24,64 +24,37 @@ const customer = {
 const invoice = { id: 0 };
 
 async function populate(): Promise<void> {
-    const connectUser = await pool.query(
-        `
-            INSERT INTO users (name, email, password_hash)
-            VALUES ('Usuário de Teste', $1, 'placeholder')
-            RETURNING id;
-        `,
-        [user.email]
-    );
+    await prisma.user.create({
+        data: {
+            name: 'Usuário de Teste',
+            email: user.email,
+            passwordHash: 'placeholder'
+        }
+    }).then(data => user.id = data.id);
 
-    user.id = connectUser.rows[0].id;
+    await prisma.customer.create({
+        data: {
+            userId: user.id,
+            name: 'Cliente de Teste',
+            email: customer.email
+        }
+    }).then(data => customer.id = data.id);
 
-    const connectCustomer = await pool.query(
-        `
-            INSERT INTO customers (user_id, name, email)
-            VALUES ($1, 'Cliente de Teste', $2)
-            RETURNING id;
-        `,
-        [user.id, customer.email]
-    );
-    
-    customer.id = connectCustomer.rows[0].id;
-
-    const connectInvoice = await pool.query(
-        `
-            INSERT INTO invoices (customer_id, amount, status, issue_date, due_date)
-            VALUES ($1, 125037, 'pending', '2026-10-01', '2026-10-31')
-            RETURNING id;
-        `,
-        [customer.id]
-    );
-
-    invoice.id = connectInvoice.rows[0].id;
+    await prisma.invoice.create({
+        data: {
+            customerId: customer.id,
+            amount: 125037,
+            status: 'pending',
+            issueDate: new Date('2026-10-01'),
+            dueDate: new Date('2026-10-31')
+        }
+    }).then(data => invoice.id = data.id)
 }
 
 async function clear(): Promise<void> {
-    await pool.query(
-        `
-            DELETE FROM invoices
-            WHERE customer_id IN ($1);
-        `,
-        [customer.id]
-    );
-
-    await pool.query(
-        `
-            DELETE FROM customers
-            WHERE id = $1;
-        `,
-        [customer.id]
-    );
-
-    await pool.query(
-        `
-            DELETE FROM users
-            WHERE id = $1;
-        `,
-        [user.id]
-    );
+    await prisma.invoice.deleteMany({ where: { customerId: customer.id } });
+    await prisma.customer.deleteMany({ where: { id: customer.id } });
+    await prisma.user.deleteMany({ where: { id: user.id } })
 }
 
 const request = supertest(app)
@@ -96,7 +69,7 @@ describe(
 
         afterAll(async () => {
             await clear();
-            await pool.end();
+            await prisma.$disconnect();
         });
 
         it(
