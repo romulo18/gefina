@@ -1,5 +1,5 @@
 {
-    "prisma.pinToPrisma6": true,
-    "editor.guides.bracketPairs": true,
-    "editor.smoothScrolling": true,
+  "prisma.pinToPrisma6": true,
+  "editor.guides.bracketPairs": true,
+  "editor.smoothScrolling": true
 }
