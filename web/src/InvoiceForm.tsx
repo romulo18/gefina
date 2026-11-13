@@ -51,7 +51,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
       amount: Math.round(Number(amount) * 100),
       status,
       issueDate,
-      dueDate,
+      dueDate
     });
   };
 
@@ -60,7 +60,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
       <h2>{!props.invoice ? 'Criar fatura' : 'Editar fatura'}</h2>
 
       <div className="field">
-        <label htmlFor="customer">Clientes</label>
+        <label htmlFor="customer">Cliente</label>
         <select
           id="customer"
           value={customerId}
