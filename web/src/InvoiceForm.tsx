@@ -30,7 +30,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
     !props.invoice ? undefined : String(props.invoice.customer.id),
   );
   const [amount, setAmount] = useState(
-    !props.invoice ? '' : (props.invoice.amount / 100).toFixed(2),
+    !props.invoice ? undefined : (props.invoice.amount / 100).toFixed(2),
   );
   const [status, setStatus] = useState<InvoiceStatus>(
     !props.invoice ? 'pending' : props.invoice.status,
@@ -51,7 +51,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
       amount: Math.round(Number(amount) * 100),
       status,
       issueDate,
-      dueDate,
+      dueDate
     });
   };
 
@@ -60,7 +60,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
       <h2>{!props.invoice ? 'Criar fatura' : 'Editar fatura'}</h2>
 
       <div className="field">
-        <label htmlFor="customer">Clientes</label>
+        <label htmlFor="customer">Cliente</label>
         <select
           id="customer"
           value={customerId}
@@ -183,7 +183,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
         </div>
       )}
 
-      {!props.error && <p className="form-error">{props.error}</p>}
+      {props.error && <p className="form-error">{props.error}</p>}
       {props.fieldErrors.customerId && (
         <p className="form-error">{props.fieldErrors.customerId}</p>
       )}
