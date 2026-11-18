@@ -3,7 +3,10 @@ import { defineConfig } from 'vitest/config';
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    tailwindcss()
+  ],
   server: {
     proxy: {
       '/api': 'http://localhost:3000',
