@@ -12,16 +12,17 @@
     }
   },
   "css": {
-    "parser":{
-      "tailwindDirectives": null
+    "parser": {
+      "tailwindDirectives": true
+    },
+    "formatter": {
+      "quoteStyle": "single"
+    }
   },
-  "formatter":{
-    "quoteStyle": "single"
-  }
-},
-"linter": {
-  "enabled": true,
-  "rules": {
-    "preset": "recommended"
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended"
+    }
   }
 }
