@@ -11,10 +11,17 @@
       "semicolons": "always"
     }
   },
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "preset": "recommended"
-    }
+  "css": {
+    "parser":{
+      "tailwindDirectives": null
+  },
+  "formatter":{
+    "quoteStyle": "single"
+  }
+},
+"linter": {
+  "enabled": true,
+  "rules": {
+    "preset": "recommended"
   }
 }
