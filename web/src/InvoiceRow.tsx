@@ -12,7 +12,7 @@ interface InvoiceRowProps {
 }
 
 export default function InvoiceRow(props: InvoiceRowProps) {
-  const base = 'p-3 border-b border-border';
+  const base = 'p-3 border-b border-border ';
   
   return (
     <tr>
@@ -31,7 +31,7 @@ export default function InvoiceRow(props: InvoiceRowProps) {
       </td>
       <td className={`${base} text-center px-0`}>
         <button
-          className='px-4 py-2 border border-border rounded-control cursor-pointer hover:bg-surface-raised'
+          className='px-4 py-2 border border-border rounded-control cursor-pointer hover:bg-surface-raised focus-visible:outline-2 focus-visible:outline-primary'
           type="button"
           onClick={() => props.edit(props.invoice)}
         >

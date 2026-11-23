@@ -79,4 +79,4 @@ export default function DashboardPage() {
       <small className='fixed bottom-0 left-[calc(50%+120px)] -translate-x-1/2'>&copy; 2026. Gefina - Gestor financeiro simples e eficiente.</small>
     </>
   );
-}
+} 
